@@ -1,0 +1,20 @@
+{% extends "../main.html" %}
+
+{% block title %}403{% end %}
+
+{% block content %}
+  	<div class="container">
+		<h1>403 - Forbidden</h1>
+		<br />
+		<p>
+			You must have the 'administrator' permission to view this page.
+			<!-- 
+				Current users with 'adminstrator' permission:
+				{% from models.User import User %}
+				{% for (index, user) in enumerate(User.all_admins()) %}
+					{{ index + 1 }}. {{ user.name }}
+				{% end %}
+			-->
+		</p>
+	</div>
+{% end %}

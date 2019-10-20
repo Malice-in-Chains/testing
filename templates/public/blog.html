@@ -1,0 +1,24 @@
+{% extends "../main.html" %}
+
+{% block title %}Blog{% end %}
+
+{% block content %}
+	<div class="container">
+		<h1>The CloudBox Blog</h1>
+		<h3>Insights and Wisdom on the Cloud &amp; Security</h3>
+		<br />
+		{% from models.BlogEntry import BlogEntry %}
+		{% for entry in BlogEntry.ordered() %}
+			<div class="row well">
+				<h3>{{ entry.title }}</h3>
+				<h4>{{ entry.created }}</h4>
+				<div class="span3">
+					<img src="{{ entry.image_uri }}" class="img-polaroid" />
+				</div>
+				<div class="span7">
+					{{ entry.paragraph }}
+				</div>
+			</div>
+		{% end %}
+	</div>
+{% end %}

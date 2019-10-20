@@ -1,0 +1,43 @@
+{% extends "../main.html" %}
+
+{% block title %}Login{% end %}
+
+{% block content %}
+  <div class="container">
+    <h1>CloudBox</h1>
+    <br />
+    {% if errors != None and len(errors) != 0 %}
+      {% for error in errors %}
+        <div class="alert alert-error">
+          <a class="close" data-dismiss="alert" href="#">×</a>
+          <h4 class="alert-heading">ERROR</h4>
+          {{ error }}
+        </div>
+      {% end %}
+    {% end %}
+    <div class="well">
+      <form class="form-horizontal" action="/login" method="post" autocomplete="off">  
+        {% raw xsrf_form_html() %}
+          <legend>Login</legend>
+          <div class="control-group">
+            <label class="control-label" for="username">Username</label>
+            <div class="controls">
+              <input autofocus name="username" id="username" placeholder="Username" type="text"/>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+              <input name="password" id="password" placeholder="Password" type="password" />
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-primary" type="submit">Login</button>
+            </div>
+          </div>
+          <a href="/recovery">Forgot Password?</a>
+      </form>
+    </div>
+  </div>
+{% end %}

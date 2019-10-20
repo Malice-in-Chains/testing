@@ -1,0 +1,37 @@
+{% extends "../main.html" %}
+
+{% block title %}Summary{% end %}
+
+{% block content %}
+{% import os %}
+    <div class="container">
+        <h1>File Apotheosis</h1>
+        <br />
+        {% if errors != None and len(errors) != 0 %}
+            {% for error in errors %}
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4 class="alert-heading">ERROR</h4>
+                    {{ error }}
+                </div>
+            {% end %}
+        {% end %}
+        <div class="well">
+            <form action="/upload" method="post" enctype="multipart/form-data">  
+                {% raw xsrf_form_html() %}
+                <legend>Upload Files to CloudBox</legend>
+                <div class="control-group">
+                    <label class="control-label" for="upload">Username</label>
+                    <div class="controls">
+                        <input name="upload" id="upload" type="file"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button class="btn btn-primary" type="submit">Save to CloudBox</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% end %}

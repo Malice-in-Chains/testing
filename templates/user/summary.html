@@ -1,0 +1,74 @@
+{% extends "../main.html" %}
+
+{% block title %}Summary{% end %}
+
+{% block content %}
+{% import os %}
+    <script>
+        function get_file(fname) {
+            var iframe;
+            var hiddenIFrameID = 'hiddenDownloader';
+            iframe = document.getElementById(hiddenIFrameID);
+            if (iframe === null) {
+                iframe = document.createElement('iframe');  
+                iframe.id = hiddenIFrameID;
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+            iframe.src = '/download?fn='+fname.toString();
+        }
+        
+        function delete_file(fname) {
+            window.location = "/delete?fn="+fname.toString();
+        }
+    </script>
+    <div class="container">
+        <h1>CloudBox</h1>
+        <br />
+        {% if errors != None and len(errors) != 0 %}
+            {% for error in errors %}
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4 class="alert-heading">ERROR</h4>
+                    {{ error }}
+                </div>
+            {% end %}
+        {% end %}
+        <div class="well">
+            {% if len(os.listdir(dir)) == 0 %}
+                You do not have any saved files; why not <a href="/upload">upload</a> some.
+            {% else %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th><!-- Download --></th>
+                            <th><!-- Delete --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for (index, fname) in enumerate(os.listdir(dir)) %}
+                            <tr>
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ fname }}</td>
+                                <td>{{ os.path.getsize(dir + '/' + fname) / 1000 }}kB</td>
+                                <td>
+                                <button class="btn btn-mini" type="button" onclick="get_file('{{ fname }}')">
+                                    Download
+                                </button>
+                              </td>
+                              <td>
+                                <button class="btn btn-danger btn-mini" type="button" onclick="delete_file('{{ fname }}')" >
+                                    Delete
+                                </button>
+                              </td>
+                            </tr>
+                        {% end %}
+                    </tbody>
+                </table>
+            {% end %}
+        </div>
+    </div>
+{% end %}
